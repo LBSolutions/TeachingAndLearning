@@ -1,0 +1,44 @@
+
+.row_Header {
+    border: solid;
+    border-width: 1px;
+    border-color: darkblue;
+    background-color: darkblue;
+    font-family: Arial;
+    font-weight:bold;
+    color:white;
+}
+
+.Table {
+    border: solid;
+    border-width: 1px;
+    border-color:darkblue;
+    background-color: lightblue;
+    font-family: Arial;
+}
+
+.Button_standard {
+    border: solid;
+    border-width: 1px;
+    background-color:white;
+}
+
+.Button_standard:hover{
+        border: solid;
+        font-weight: bold;
+        border-width: 1px;
+        background-color: darkblue;
+        color:white;
+    }
+
+.button_wide{
+    width:100px;
+}
+
+.Dropdown_standard {
+    border: solid;
+    border-width: 1px;
+    background-color: white;
+    width: 100px;
+}
+

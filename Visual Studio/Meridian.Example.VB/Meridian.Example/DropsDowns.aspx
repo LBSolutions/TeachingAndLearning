@@ -10,6 +10,9 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:Label ID="Label1" runat="server" Text="Lance Beacroft Test Results" CssClass="TitleLabel"/>
+            <br />
+            <br />
             <table>
                 <tr>
                     <td>

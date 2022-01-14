@@ -28,4 +28,10 @@
 
 
     End Sub
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+
+        Response.Redirect("DropsDowns.aspx")
+
+    End Sub
 End Class

@@ -23,6 +23,15 @@ Partial Public Class EditSite
     Protected WithEvents form2 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''Label2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Label1 control.
     '''</summary>
     '''<remarks>
@@ -48,4 +57,13 @@ Partial Public Class EditSite
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents SaveButton As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''CancelButton control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CancelButton As Global.System.Web.UI.WebControls.Button
 End Class

@@ -22,6 +22,7 @@ Public Class DatabaseInterogator
     End Function
 
     Private Function GetConnection() As SqlConnection
+        'return a connection to the client
         Try
             Dim myCnn As SqlConnection
             Dim DbString As String = ConfigurationManager.ConnectionStrings("MeridianExampleDBConnectionString").ToString
@@ -35,7 +36,7 @@ Public Class DatabaseInterogator
     End Function
 
     Private Function ExecuteCommand(StrSQLCommand As String) As Boolean
-
+        'execute the sql presented
         Try
             Dim myCnn As SqlConnection = GetConnection()
             myCnn.Open()
@@ -51,24 +52,30 @@ Public Class DatabaseInterogator
 
     Private Function ProcessSql(strsql As String) As DataSet
 
+        'get connection
         Dim myCnn As SqlConnection = GetConnection()
 
         Try
             myCnn.Open()
         Catch ex As Exception
-
+            Throw New Exception(ex.Message)
         End Try
 
-        Dim ds As DataSet = New DataSet
-        Dim cmd As New SqlClient.SqlCommand
-        cmd.Connection = myCnn
-        cmd.CommandText = strsql
-        cmd.CommandTimeout = 6000
-        Dim oDataAdapter As New SqlClient.SqlDataAdapter(cmd)
-        oDataAdapter.Fill(ds)
-        myCnn.Close()
+        Try
+            Dim ds As DataSet = New DataSet
+            Dim cmd As New SqlClient.SqlCommand
+            cmd.Connection = myCnn
+            cmd.CommandText = strsql
+            cmd.CommandTimeout = 6000
+            Dim oDataAdapter As New SqlClient.SqlDataAdapter(cmd)
+            oDataAdapter.Fill(ds)
+            myCnn.Close()
+            Return ds
+        Catch ex As Exception
+            Return Nothing
+        End Try
 
-        Return ds
+
 
     End Function
 
@@ -76,7 +83,7 @@ End Class
 Public Class docTypes
     Implements IEnumerable
 
-    Private lselectedItem As Long
+    Private lselectedItem As Long = 1
 
     Private colSites As Collection = New Collection
 
@@ -188,7 +195,7 @@ Public Class siteTypes
     End Function
 
     Private selectedObject As sitetype
-    Private lselectedItem As Long
+    Private lselectedItem As Long = 1
 
     Public ReadOnly Property SelectedItem As sitetype
         Get
@@ -253,6 +260,8 @@ Public Class Sites
     Implements IEnumerable
 
     Private colSites As Collection = New Collection
+    Private selectedObject As Site
+    Private lselectedItem As Long = 1
 
     Public Function Load() As Boolean
 
@@ -275,8 +284,6 @@ Public Class Sites
 
     End Function
 
-    Private selectedObject As Site
-    Private lselectedItem As Long
 
     Public ReadOnly Property SelectedItem As Site
         Get

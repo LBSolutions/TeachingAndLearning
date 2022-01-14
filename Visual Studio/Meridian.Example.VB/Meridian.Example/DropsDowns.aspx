@@ -10,19 +10,29 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <div>
-                <br />
-                <br />
-                <asp:DropDownList ID="SiteDropDown" runat="server" CssClass="Dropdown_standard"></asp:DropDownList>
-                <asp:Button ID="EditSiteButton" runat="server" Text="Edit" CssClass="Button_standard"/>
-                <br />
-                <br />
+            <table>
+                <tr>
+                    <td>
+                        <asp:Label runat="server" Text="Sites" id="lblSites" CssClass="label"/>
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="SiteDropDown" runat="server" CssClass="Dropdown_standard"/>
+                    </td>
+                    <td>
+                        <asp:Button ID="EditSiteButton" runat="server" Text="Edit" CssClass="Button_standard"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><asp:Label runat="server" Text="Documents" id="lblDocuments" CssClass="label"/></td>
+                    <td><asp:DropDownList ID="DocumentTypeDropDown" runat="server" CssClass="Dropdown_standard"/></td>
+                    <td> <asp:Button ID="EditDocTypeButton" runat="server" Text="Edit" CssClass="Button_standard"/></td>
+                </tr>
+            </table>
+
+                
             </div>
             <div>
-                <asp:DropDownList ID="DocumentTypeDropDown" runat="server" CssClass="Dropdown_standard">
-                </asp:DropDownList>
-                <asp:Button ID="EditDocTypeButton" runat="server" Text="Edit" CssClass="Button_standard"/>
-            </div>
+                
         </div>
     </form>
 </body>

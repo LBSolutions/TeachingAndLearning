@@ -44,5 +44,20 @@
         Dim cDoctypes As docTypes = Session("docTypes")
         cDoctypes.SelectedItemId = SelectedId
 
+        Response.Redirect("editDocType.aspx")
+
+
+    End Sub
+
+    Protected Sub EditSiteButton_Click(sender As Object, e As EventArgs) Handles EditSiteButton.Click
+
+        Dim SelectedId As Long
+        SelectedId = Me.SiteDropDown.SelectedValue
+
+        Dim cSites As Sites = Session("Sites")
+        cSites.SelectedItemId = SelectedId
+
+        Response.Redirect("editSite.aspx")
+
     End Sub
 End Class

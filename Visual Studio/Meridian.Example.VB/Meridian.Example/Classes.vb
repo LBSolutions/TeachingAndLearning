@@ -1,18 +1,58 @@
 ﻿Imports System.Data.SqlClient
-Imports System.Data
-Imports System.Configuration
 
+Public Interface iSave
+    Function savesql() As String
+
+End Interface
 Public Class DatabaseInterogator
     Public Function GetRecordset(strSQL As String) As DataSet
         Return ProcessSql(strSQL)
     End Function
 
+    Public Function SaveObject(objectToSave As iSave) As Boolean
+
+        Try
+            Dim strsql = objectToSave.savesql
+            ExecuteCommand(strsql)
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+
+    End Function
+
+    Private Function GetConnection() As SqlConnection
+        Try
+            Dim myCnn As SqlConnection
+            Dim DbString As String = ConfigurationManager.ConnectionStrings("MeridianExampleDBConnectionString").ToString
+            myCnn = New SqlConnection(DbString)
+            Return myCnn
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Function
+
+    Private Function ExecuteCommand(StrSQLCommand As String) As Boolean
+
+        Try
+            Dim myCnn As SqlConnection = GetConnection()
+            myCnn.Open()
+            Dim cmd As SqlCommand = New SqlCommand(StrSQLCommand, myCnn)
+            cmd.ExecuteNonQuery()
+            myCnn.Close()
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+
+    End Function
+
     Private Function ProcessSql(strsql As String) As DataSet
 
-        Dim myCnn As SqlConnection
-        Dim DbString As String = ConfigurationManager.ConnectionStrings("MeridianExampleDBConnectionString").ToString
+        Dim myCnn As SqlConnection = GetConnection()
 
-        myCnn = New SqlConnection(DbString)
         Try
             myCnn.Open()
         Catch ex As Exception
@@ -33,10 +73,9 @@ Public Class DatabaseInterogator
     End Function
 
 End Class
-
 Public Class docTypes
     Implements IEnumerable
-    Private selectedObject As docType
+
     Private lselectedItem As Long
 
     Private colSites As Collection = New Collection
@@ -62,6 +101,7 @@ Public Class docTypes
 
     End Function
 
+    Private selectedObject As docType
     Public ReadOnly Property SelectedItem As docType
         Get
             Return selectedObject
@@ -83,16 +123,28 @@ Public Class docTypes
     End Function
 
 End Class
-
 Public Class docType
+    Implements iSave
+
     Dim lDocTypeId As Long
     Dim strDocTypeName As String
+    Dim bHasChanged As Boolean = False
+    Public Property haschanged As Boolean
+        Get
+            Return bHasChanged
+        End Get
+        Set(value As Boolean)
+            bHasChanged = value
+        End Set
+    End Property
+
     Public Property docTypeName As String
         Get
             Return strDocTypeName
         End Get
         Set(value As String)
             strDocTypeName = value
+            bHasChanged = True
         End Set
     End Property
 
@@ -104,8 +156,11 @@ Public Class docType
             lDocTypeId = value
         End Set
     End Property
-End Class
 
+    Public Function savesql() As String Implements iSave.savesql
+        Return "update DOC_TYPES set DocType='" & strDocTypeName & "' where doctypeid = " & lDocTypeId.ToString
+    End Function
+End Class
 Public Class siteTypes
     Implements IEnumerable
 
@@ -132,16 +187,44 @@ Public Class siteTypes
 
     End Function
 
+    Private selectedObject As sitetype
+    Private lselectedItem As Long
+
+    Public ReadOnly Property SelectedItem As sitetype
+        Get
+            Return selectedObject
+        End Get
+    End Property
+
+    Public Property SelectedItemId As Long
+        Get
+            Return lselectedItem
+        End Get
+        Set(value As Long)
+            lselectedItem = value
+            selectedObject = colSitetypes.Item(lselectedItem)
+        End Set
+    End Property
+
     Public Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
         Return colSitetypes.GetEnumerator
     End Function
 
 End Class
-
 Public Class sitetype
+    Implements iSave
 
     Private lSiteTypeID As Long
     Private strSiteTypeName As String
+    Dim bHasChanged As Boolean = False
+    Public Property haschanged As Boolean
+        Get
+            Return bHasChanged
+        End Get
+        Set(value As Boolean)
+            bHasChanged = value
+        End Set
+    End Property
 
     Public Property SiteTypeID
         Get
@@ -158,13 +241,14 @@ Public Class sitetype
         End Get
         Set(value)
             strSiteTypeName = value
+            bHasChanged = True
         End Set
     End Property
 
-
+    Public Function savesql() As String Implements iSave.savesql
+        Return "update SITE_TYPE set SiteTypeName='" & strSiteTypeName & "' where doctypeid = " & lSiteTypeID.ToString
+    End Function
 End Class
-
-
 Public Class Sites
     Implements IEnumerable
 
@@ -191,21 +275,51 @@ Public Class Sites
 
     End Function
 
+    Private selectedObject As Site
+    Private lselectedItem As Long
+
+    Public ReadOnly Property SelectedItem As Site
+        Get
+            Return selectedObject
+        End Get
+    End Property
+
+    Public Property SelectedItemId As Long
+        Get
+            Return lselectedItem
+        End Get
+        Set(value As Long)
+            lselectedItem = value
+            selectedObject = colSites.Item(lselectedItem)
+        End Set
+    End Property
+
     Public Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
         Return colSites.GetEnumerator
     End Function
 
 End Class
 Public Class Site
+    Implements iSave
 
     Dim lSiteId As Long
     Dim strSiteName As String
+    Dim bHasChanged As Boolean = False
+    Public Property haschanged As Boolean
+        Get
+            Return bHasChanged
+        End Get
+        Set(value As Boolean)
+            bHasChanged = value
+        End Set
+    End Property
     Public Property SiteName As String
         Get
             Return strSiteName
         End Get
         Set(value As String)
             strSiteName = value
+            bHasChanged = True
         End Set
     End Property
 
@@ -218,4 +332,7 @@ Public Class Site
         End Set
     End Property
 
+    Public Function savesql() As String Implements iSave.savesql
+        Return "update Sites set SiteName='" & strSiteName & "' where Siteid = " & lSiteId.ToString
+    End Function
 End Class

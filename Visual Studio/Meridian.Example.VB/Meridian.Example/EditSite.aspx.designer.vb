@@ -12,25 +12,34 @@ Option Explicit On
 
 
 Partial Public Class EditSite
-    
+
     '''<summary>
-    '''form1 control.
+    '''form2 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
-    
+    Protected WithEvents form2 As Global.System.Web.UI.HtmlControls.HtmlForm
+
     '''<summary>
-    '''Field1 control.
+    '''Label1 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Field1 As Global.System.Web.UI.WebControls.TextBox
-    
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''txtSiteName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSiteName As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
     '''SaveButton control.
     '''</summary>
